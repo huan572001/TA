@@ -62,7 +62,7 @@ const App: React.FC = () => {
 
         return (
           <WordItem
-            key={index}
+            key={question + answer}
             eng={item.english}
             vie={item.vietnamese}
             question={question}
