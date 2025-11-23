@@ -12,14 +12,19 @@ const WordItem: React.FC<WordItemProps> = ({ eng, vie, question, answer }) => {
   const [input, setInput] = useState<string>("");
   const [showResult, setShowResult] = useState<boolean>(false);
 
-  // Chấm điểm theo % ký tự đúng
   const score = matchSimilarity(input, answer);
 
-  // Phát âm: nếu đang ở chế độ EN→VI thì phát âm tiếng Anh
-  // Nếu đang ở VI→EN thì phát âm tiếng Việt không có ý nghĩa nên mình phát âm tiếng Anh
   const speakWord = () => {
     const utter = new SpeechSynthesisUtterance(eng);
+
+    const voices = speechSynthesis.getVoices();
+    const voice = voices.find((v) => v.lang === "en-US") || voices[0];
+    if (voice) utter.voice = voice;
+
     utter.lang = "en-US";
+    utter.rate = 0.9;
+    utter.pitch = 1.0;
+
     speechSynthesis.speak(utter);
   };
 
